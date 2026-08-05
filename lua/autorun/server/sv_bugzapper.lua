@@ -34,6 +34,8 @@ hook.Add("OnPhysgunPickup", "BugZapperPickup", function(ply, ent)
 		return
 	end
 
+	timer.Remove("BugZapper_" .. ent:EntIndex())
+
 	ent:SetCollisionGroup(11) ---collision group 11 makes it not collide with players and vehicles, more info at https://wiki.facepunch.com/gmod/Enums/COLLISION_GROUP
 end)
 
@@ -42,7 +44,7 @@ hook.Add("PhysgunDrop", "BugZapperDrop", function(ply, ent)
 		return
 	end
 
-	timer.Simple(bugzapperTime:GetFloat(), function()
+	timer.Create("BugZapper_" .. ent:EntIndex(), bugzapperTime:GetFloat(), 1, function()
 		if not IsValid(ent) then
 			return
 		end
